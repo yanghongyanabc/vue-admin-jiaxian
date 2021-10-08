@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="lang">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动态创建表头及表单脚本</title>
+</head>
+
+<body>
+  <div id="title"></div>
+  <div id="title_move"></div>
+  <div id="form"></div>
+  <script>
+    window.onload = function () {
+      var dataCode = [
+        'cUnitCode',
+        'cUnitName',
+        'cClass',
+        'cYSCode',
+        'cYSName',
+        'qc',
+        'bzMoney',
+        'ysMoney',
+        'ye',
+      ]
+
+      var dataName = [
+        '用款单位编码',
+        '用款单位名称',
+        '预算类型',
+        '预算科目编码',
+        '预算科目名称',
+        '期初',
+        '报账金额',
+        '预算金额',
+        '余额 '
+      ]
+      // -----------------------------表头
+      // var tableColumn = [{field: 'cgxztai',title: '工序状态',width: 120,remoteSort: true}] 目标格式
+      var tableColumn = []
+      for (var i = 0; i < dataCode.length; i++) {
+        var obj = {
+          field: dataCode[i],
+          title: dataName[i],
+          width: 130,
+          //   remoteSort: true
+          // editRender: { name: 'input', attrs: { placeholder: '请输入' }}
+        }
+        tableColumn.push(obj);
+      }
+      console.log(tableColumn)
+      document.getElementById('title').innerHTML = JSON.stringify(tableColumn)
+
+      // -----------------------------表单
+      /* <el-form-item label="工序编号" prop="igxnum">  目标格式
+          <el-input v-model="temp.igxnum" />
+         </el-form-item> */
+      var formHtml = ''
+      for (var i = 0; i < dataCode.length; i++) {
+        var str = `<el-form-item label="${dataName[i]}" prop="${dataCode[i]}">
+            <el-input v-model="temp.${dataCode[i]}" />
+           </el-form-item>`
+        formHtml += str;
+      }
+      console.log(formHtml)
+
+      // -----------------------------甘特图-列名
+      /* <el-table-column
+          :prop="selfProps.startDate"
+          label="开始日期"
+          width="140"
+        ></el-table-column> */
+      var GannttableColumn = ''
+      for (var i = 0; i < dataCode.length; i++) {
+        var str = `<el-table-column label="${dataName[i]}" prop="selfProps.${dataCode[i]}" width="140" />`
+        GannttableColumn += str;
+      }
+      console.log(GannttableColumn)
+    }
+
+  </script>
+</body>
+
+</html>
